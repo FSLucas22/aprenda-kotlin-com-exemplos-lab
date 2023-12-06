@@ -1,6 +1,6 @@
-package modelo
+package src.modelo
 
-import Porcentagem
+import src.Porcentagem
 
 data class Usuario(
     val nome: String,

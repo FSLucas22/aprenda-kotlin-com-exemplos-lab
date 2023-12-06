@@ -1,6 +1,6 @@
-package modelo
+package src.modelo
 
-import Minutos
+import src.Minutos
 
 enum class Nivel { BASICO, INTERMEDIARIO, AVANCADO }
 

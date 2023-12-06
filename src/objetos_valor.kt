@@ -1,3 +1,5 @@
+package src
+
 @JvmInline
 value class Porcentagem(val valor: Double)
 

@@ -1,4 +1,4 @@
-package test_utilities
+package tests.test_utilities
 
 /*
 * Funções úteis para realizar assertions em testes
