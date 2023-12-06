@@ -1,3 +1,5 @@
+package test_utilities
+
 /*
 * Funções úteis para auxiliar na estruturação de testes
 */

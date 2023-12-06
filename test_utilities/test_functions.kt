@@ -1,3 +1,9 @@
+package test_utilities
+
+/*
+* Funções úteis para realizar assertions em testes
+*/
+
 fun assertTrue(
     condition: Boolean,
     message: String = "expected true got false") {
