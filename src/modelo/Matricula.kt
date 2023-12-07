@@ -6,7 +6,7 @@ data class Matricula(
     val inscritos: MutableList<Usuario> = mutableListOf()
 ) {
     fun matricular(usuario: Usuario) {
-        validaInscricao(usuario)
+        validaMatricula(usuario)
         inscritos.add(usuario)
     }
 
@@ -15,7 +15,7 @@ data class Matricula(
         inscritos.remove(usuario)
     }
 
-    private fun validaInscricao(usuario: Usuario) {
+    private fun validaMatricula(usuario: Usuario) {
         if (usuario in inscritos) {
             throw MatriculaInvalidaException("Usuário já matriculado")
         }
