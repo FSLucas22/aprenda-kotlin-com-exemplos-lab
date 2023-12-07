@@ -13,6 +13,7 @@ data class Test(
     val testFunction: TestFunction,
 ) {
     var result: TestResult = TestResult.NOT_EXECUTED
+    var stackTrace: String? = null
 }
 
 data class TestSession(
@@ -23,8 +24,9 @@ data class TestSession(
             try {
                 it.testFunction()
                 it.result = TestResult.PASSED
-            } catch (_: Throwable) {
+            } catch (e: Throwable) {
                 it.result = TestResult.FAILED
+                it.stackTrace = e.stackTraceToString()
             }
         }
         return this
@@ -46,13 +48,15 @@ data class TestSession(
                 }
                 TestResult.FAILED -> {
                     println("Teste: ${it.name} - FALHOU")
+                    print("Info: ")
+                    println(it.stackTrace)
                     failed++
                 }
-                TestResult.PASSED -> failed++
+                TestResult.PASSED -> passed++
             }
         }
 
-        println("Testes: $testNumber | Passados: $passed | Falhados: $failed")
+        println("Testes: $testNumber | Passados: $passed | Falhados: $failed | Não executados: $notExecuted")
     }
 }
 
