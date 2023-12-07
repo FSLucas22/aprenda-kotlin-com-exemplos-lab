@@ -1,5 +1,6 @@
 package src.modelo
 
+import src.Minutos
 import src.Porcentagem
 
 data class Formacao(
@@ -9,10 +10,7 @@ data class Formacao(
 ) {
     val inscritos = matricula.inscritos
 
-    val duracao: Porcentagem
-        get() {
-            TODO("Use a lista de $conteudos para calcular a duração total da formação, em minutos")
-        }
+    val duracao: Minutos = Minutos(conteudos.sumOf { it.duracao.valor })
 
     fun matricular(usuario: Usuario) {
         matricula.matricular(usuario)

@@ -11,17 +11,21 @@ import tests.test_utilities.*
 
 fun newUsuario() = Usuario("Lucas", 24)
 
-fun newFormacao(): Formacao {
-    val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
-    return Formacao("Programação Kotlin", listOf(conteudo))
+fun newConteudoEducacional(minutos: Minutos = Minutos(60.0)) = ConteudoEducacional(
+    "Kotlin Basics",
+    minutos,
+    Nivel.BASICO
+)
+
+fun newFormacao(vararg conteudo: ConteudoEducacional): Formacao {
+    return Formacao("Programação Kotlin", listOf(*conteudo))
 }
 
 val testesFormacao = newSession(
     Test("Deve matricular um usuário") {
         given { object {
-            val usuario = Usuario("Lucas", 24)
-            val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
-            val formacao = Formacao("Programação Kotlin", listOf(conteudo))
+            val usuario = newUsuario()
+            val formacao = newFormacao()
         } } whenDone {
             formacao.matricular(usuario)
             formacao.inscritos
@@ -34,9 +38,8 @@ val testesFormacao = newSession(
 
     Test("Não deve matricular o mesmo usuário duas vezes") {
         given {
-            val usuario = Usuario("Lucas", 24)
-            val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
-            val formacao = Formacao("Programacao Kotlin", listOf(conteudo))
+            val usuario = newUsuario()
+            val formacao = newFormacao()
 
             formacao.matricular(usuario)
 
@@ -82,6 +85,19 @@ val testesFormacao = newSession(
         } then {
             assertEquals(0, formacao.inscritos.size)
             assertTrue(formacao !in usuario.progressos)
+        }
+    },
+
+    Test("Deve ter como duração a soma das durações dos ConteudosEducacionais") {
+        given { object {
+            val formacao = newFormacao(
+                newConteudoEducacional(Minutos(3.0)),
+                newConteudoEducacional(Minutos(6.0))
+            )
+        } } whenDone {
+            formacao.duracao
+        } then {
+            assertEquals(Minutos(9.0), formacao.duracao)
         }
     }
 )
