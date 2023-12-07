@@ -14,19 +14,17 @@ data class Formacao(
 
     fun matricular(usuario: Usuario) {
         matricula.matricular(usuario)
-        usuario.progressos[this] = mutableListOf()
+        usuario.adicionarFormacao(this)
     }
 
     fun cancelarMatricula(usuario: Usuario) {
         matricula.cancelarMatricula(usuario)
-        usuario.progressos.remove(this)
+        usuario.removerFormacao(this)
     }
 
     fun concluirConteudo(usuario: Usuario, indiceConteudo: Int) {
         validaConclusao(usuario, indiceConteudo)
-        usuario.progressos[this]?.run {
-            add(indiceConteudo)
-        } ?: { usuario.progressos[this] = mutableListOf() }
+        usuario.concluirConteudo(this, indiceConteudo)
     }
 
     private fun validaConclusao(usuario: Usuario, indiceConteudo: Int) {

@@ -12,4 +12,18 @@ data class Usuario(
             "com base na duração da $formacao e da duração dos conteúdos concluídos por ele " +
             "(Indices dos conteúdos concluídos está progressos[formacao]")
     }
+
+    fun adicionarFormacao(formacao: Formacao) {
+        progressos.putIfAbsent(formacao, mutableListOf())
+    }
+
+    fun removerFormacao(formacao: Formacao) {
+        progressos.remove(formacao)
+    }
+
+    fun concluirConteudo(formacao: Formacao, indiceConteudo: Int) {
+        progressos[formacao]?.run {
+            add(indiceConteudo)
+        }
+    }
 }
