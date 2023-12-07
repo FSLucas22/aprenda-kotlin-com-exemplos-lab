@@ -22,13 +22,3 @@ fun <T> assertEquals(
     gotted: T,
     message: String = "expected $expected to equal $gotted"
 ) = assertTrue(expected == gotted, message)
-
-
-fun main() {
-    assertTrue(1 == 1)
-    // assertTrue(1 == 0)
-    assertFalse(1 == 0)
-    // assertFalse(1 == 1)
-    assertEquals(1, 1)
-    assertEquals(1, 0)
-}
