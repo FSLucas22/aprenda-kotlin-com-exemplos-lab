@@ -1,6 +1,7 @@
 package tests
 
 import src.Minutos
+import src.Porcentagem
 import src.modelo.ConteudoEducacional
 import src.modelo.Formacao
 import src.modelo.Nivel
@@ -19,6 +20,7 @@ val testesFormacao = newSession(
         } then {
             assertEquals(1, it.size)
             assertEquals(usuario, it[0])
+            assertEquals(Porcentagem(.0), usuario.progressos[formacao])
         }
     }
 )

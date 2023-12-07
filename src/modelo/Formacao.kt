@@ -11,8 +11,8 @@ data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) 
         }
 
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
-        TODO("Atualize o atributo progressos do $usuario, adicionando a formação")
+        inscritos.add(usuario)
+        usuario.progressos[this] = Porcentagem(.0)
     }
 
     fun cancelarMatricula(usuario: Usuario) {
