@@ -9,6 +9,13 @@ import src.modelo.Nivel
 import src.modelo.Usuario
 import tests.test_utilities.*
 
+fun newUsuario() = Usuario("Lucas", 24)
+
+fun newFormacao(): Formacao {
+    val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
+    return Formacao("Programação Kotlin", listOf(conteudo))
+}
+
 val testesFormacao = newSession(
     Test("Deve matricular um usuário") {
         given { object {
@@ -32,7 +39,7 @@ val testesFormacao = newSession(
             val formacao = Formacao("Programacao Kotlin", listOf(conteudo))
 
             formacao.matricular(usuario)
-            
+
             object {
                 val usuario = usuario
                 val formacao = formacao
@@ -43,6 +50,38 @@ val testesFormacao = newSession(
             }
         } then {
             assertEquals("Usuário já matriculado", it.msg)
+        }
+    },
+
+    Test("Deve lançar erro ao tentar cancelar matricula inexistente") {
+        given { object {
+            val usuario = newUsuario()
+            val formacao = newFormacao()
+        } } whenDone {
+            catchThrowable(MatriculaInvalidaException::class.java) {
+                formacao.cancelarMatricula(usuario)
+            }
+        } then {
+            assertEquals("Usuário não matriculado", it.msg)
+        }
+    },
+
+    Test("Deve cancelar uma matricula") {
+        given {
+            val usuario = newUsuario()
+            val formacao = newFormacao()
+
+            formacao.matricular(usuario)
+
+            object {
+                val usuario = usuario
+                val formacao = formacao
+            }
+        } whenDone {
+            formacao.cancelarMatricula(usuario)
+        } then {
+            assertEquals(0, formacao.inscritos.size)
+            assertTrue(formacao !in usuario.progressos)
         }
     }
 )

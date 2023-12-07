@@ -23,10 +23,16 @@ data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) 
         }
     }
 
+    private fun validaDesmatricula(usuario: Usuario) {
+        if (usuario !in inscritos) {
+            throw MatriculaInvalidaException("Usuário não matriculado")
+        }
+    }
+
     fun cancelarMatricula(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular um cancelamento de matricula" +
-            "(usar a lista de $inscritos).")
-        TODO("Remover a formação do atributo progressos do $usuario")
+        validaDesmatricula(usuario)
+        inscritos.remove(usuario)
+        usuario.progressos.remove(this)
     }
 
     fun concluirConteudo(usuario: Usuario, indiceConteudo: Int) {
