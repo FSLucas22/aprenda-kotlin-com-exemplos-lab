@@ -27,13 +27,16 @@ val testesFormacao = newSession(
 
     Test("Não deve matricular o mesmo usuário duas vezes") {
         given {
-            val context = object {
-                val usuario = Usuario("Lucas", 24)
-                val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
-                val formacao = Formacao("Programacao Kotlin", listOf(conteudo))
+            val usuario = Usuario("Lucas", 24)
+            val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
+            val formacao = Formacao("Programacao Kotlin", listOf(conteudo))
+
+            formacao.matricular(usuario)
+            
+            object {
+                val usuario = usuario
+                val formacao = formacao
             }
-            context.formacao.matricular(context.usuario)
-            context
         } whenDone {
             catchThrowable(MatriculaInvalidaException::class.java) {
                 formacao.matricular(usuario)
