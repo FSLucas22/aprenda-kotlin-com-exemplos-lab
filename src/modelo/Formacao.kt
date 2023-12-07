@@ -1,7 +1,7 @@
 package src.modelo
 
 import src.Minutos
-import src.Porcentagem
+import src.exceptions.ConclusaoInvalidaException
 
 data class Formacao(
     val nome: String,
@@ -14,7 +14,7 @@ data class Formacao(
 
     fun matricular(usuario: Usuario) {
         matricula.matricular(usuario)
-        usuario.progressos[this] = Porcentagem(.0)
+        usuario.progressos[this] = mutableListOf()
     }
 
     fun cancelarMatricula(usuario: Usuario) {
@@ -23,11 +23,23 @@ data class Formacao(
     }
 
     fun concluirConteudo(usuario: Usuario, indiceConteudo: Int) {
-        TODO("Utilize o parametro $indiceConteudo para pegar o ConteudoEducacional a ser concluído")
+        validaConclusao(usuario, indiceConteudo)
+        usuario.progressos[this]?.run {
+            add(indiceConteudo)
+        } ?: { usuario.progressos[this] = mutableListOf() }
+        /*
         TODO("Atualize atributo progressos do $usuario para a formação do usuário com base na:" +
             "Duração do conteúdo concluído" +
             "Progresso atual do usuário na formação" +
             "Duração total da formação"
-        )
+        )*/
+    }
+
+    private fun validaConclusao(usuario: Usuario, indiceConteudo: Int) {
+        if (usuario !in inscritos) {
+            throw ConclusaoInvalidaException("Usuário não matriculado")
+        } else if (indiceConteudo >= conteudos.size) {
+            throw ConclusaoInvalidaException("Indice de conteúdo inválido")
+        }
     }
 }

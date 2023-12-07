@@ -1,6 +1,6 @@
 package src.modelo
 
-import src.MatriculaInvalidaException
+import src.exceptions.MatriculaInvalidaException
 
 data class Matricula(
     val inscritos: MutableList<Usuario> = mutableListOf()

@@ -1,10 +1,9 @@
 package src.modelo
-
-import src.Porcentagem
+typealias ConteudosConcluidos = MutableList<Int>
 
 data class Usuario(
     val nome: String,
     var idade: Int,
 ) {
-    val progressos = mutableMapOf<Formacao, Porcentagem>()
+    val progressos = mutableMapOf<Formacao, ConteudosConcluidos>()
 }
