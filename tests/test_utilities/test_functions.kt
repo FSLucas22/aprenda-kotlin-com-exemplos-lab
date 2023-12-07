@@ -20,5 +20,5 @@ fun assertFalse(
 fun <T> assertEquals(
     expected: T,
     gotted: T,
-    message: String = "expected $expected to equal $gotted"
+    message: String = "expected $expected but got $gotted"
 ) = assertTrue(expected == gotted, message)
