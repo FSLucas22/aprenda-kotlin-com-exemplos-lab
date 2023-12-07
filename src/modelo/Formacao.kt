@@ -1,37 +1,26 @@
 package src.modelo
 
-import src.MatriculaInvalidaException
 import src.Porcentagem
 
-data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) {
+data class Formacao(
+    val nome: String,
+    val conteudos: List<ConteudoEducacional>,
+    val matricula: Matricula = Matricula()
+) {
+    val inscritos = matricula.inscritos
 
-    val inscritos = mutableListOf<Usuario>()
     val duracao: Porcentagem
         get() {
             TODO("Use a lista de $conteudos para calcular a duração total da formação, em minutos")
         }
 
     fun matricular(usuario: Usuario) {
-        validaInscricao(usuario)
-        inscritos.add(usuario)
+        matricula.matricular(usuario)
         usuario.progressos[this] = Porcentagem(.0)
     }
 
-    private fun validaInscricao(usuario: Usuario) {
-        if (usuario in inscritos) {
-            throw MatriculaInvalidaException("Usuário já matriculado")
-        }
-    }
-
-    private fun validaDesmatricula(usuario: Usuario) {
-        if (usuario !in inscritos) {
-            throw MatriculaInvalidaException("Usuário não matriculado")
-        }
-    }
-
     fun cancelarMatricula(usuario: Usuario) {
-        validaDesmatricula(usuario)
-        inscritos.remove(usuario)
+        matricula.cancelarMatricula(usuario)
         usuario.progressos.remove(this)
     }
 
