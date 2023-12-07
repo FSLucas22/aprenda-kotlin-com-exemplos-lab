@@ -27,12 +27,6 @@ data class Formacao(
         usuario.progressos[this]?.run {
             add(indiceConteudo)
         } ?: { usuario.progressos[this] = mutableListOf() }
-        /*
-        TODO("Atualize atributo progressos do $usuario para a formação do usuário com base na:" +
-            "Duração do conteúdo concluído" +
-            "Progresso atual do usuário na formação" +
-            "Duração total da formação"
-        )*/
     }
 
     private fun validaConclusao(usuario: Usuario, indiceConteudo: Int) {
