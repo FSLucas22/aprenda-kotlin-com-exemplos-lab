@@ -12,6 +12,18 @@ fun assertTrue(
     }
 }
 
+inline fun <reified T: Throwable> catchThrowable(clazz: Class<T>, function: () -> Any): T {
+    try {
+        function()
+        throw AssertionError("Did not throw ${clazz.name}")
+    } catch (e: RuntimeException) {
+        if (e is T) {
+            return e
+        }
+        throw e
+    }
+}
+
 fun assertFalse(
     condition: Boolean,
     message: String = "expected false got true"

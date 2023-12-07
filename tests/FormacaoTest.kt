@@ -35,11 +35,8 @@ val testesFormacao = newSession(
             context.formacao.matricular(context.usuario)
             context
         } whenDone {
-            try {
+            catchThrowable(MatriculaInvalidaException::class.java) {
                 formacao.matricular(usuario)
-                throw AssertionError("Não lançou MatriculaInvalidaException")
-            } catch (e: MatriculaInvalidaException) {
-                e
             }
         } then {
             assertEquals("Usuário já matriculado", it.msg)
