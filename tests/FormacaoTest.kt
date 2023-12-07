@@ -1,5 +1,6 @@
 package tests
 
+import src.MatriculaInvalidaException
 import src.Minutos
 import src.Porcentagem
 import src.modelo.ConteudoEducacional
@@ -21,6 +22,27 @@ val testesFormacao = newSession(
             assertEquals(1, it.size)
             assertEquals(usuario, it[0])
             assertEquals(Porcentagem(.0), usuario.progressos[formacao])
+        }
+    },
+
+    Test("Não deve matricular o mesmo usuário duas vezes") {
+        given {
+            val context = object {
+                val usuario = Usuario("Lucas", 24)
+                val conteudo = ConteudoEducacional("Kotlin Basics", Minutos(60.0), Nivel.BASICO)
+                val formacao = Formacao("Programacao Kotlin", listOf(conteudo))
+            }
+            context.formacao.matricular(context.usuario)
+            context
+        } whenDone {
+            try {
+                formacao.matricular(usuario)
+                throw AssertionError("Não lançou MatriculaInvalidaException")
+            } catch (e: MatriculaInvalidaException) {
+                e
+            }
+        } then {
+            assertEquals("Usuário já matriculado", it.msg)
         }
     }
 )

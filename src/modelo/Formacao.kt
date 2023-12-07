@@ -1,5 +1,6 @@
 package src.modelo
 
+import src.MatriculaInvalidaException
 import src.Porcentagem
 
 data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) {
@@ -11,8 +12,15 @@ data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>) 
         }
 
     fun matricular(usuario: Usuario) {
+        validaInscricao(usuario)
         inscritos.add(usuario)
         usuario.progressos[this] = Porcentagem(.0)
+    }
+
+    private fun validaInscricao(usuario: Usuario) {
+        if (usuario in inscritos) {
+            throw MatriculaInvalidaException("Usuário já matriculado")
+        }
     }
 
     fun cancelarMatricula(usuario: Usuario) {
