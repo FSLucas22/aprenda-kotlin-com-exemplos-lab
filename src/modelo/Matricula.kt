@@ -2,8 +2,8 @@ package src.modelo
 
 import src.exceptions.MatriculaInvalidaException
 
-data class Matricula(
-    val matriculas: MutableList<UsuarioFormacao> = mutableListOf()
+class Matricula(
+    private val matriculas: MutableList<UsuarioFormacao> = mutableListOf()
 ) {
     fun inscritos(formacao: Formacao) = matriculas
         .filter { it.formacao == formacao }.map { it.usuario }

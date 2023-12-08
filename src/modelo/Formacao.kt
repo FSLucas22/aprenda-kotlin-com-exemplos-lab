@@ -5,7 +5,7 @@ import src.Minutos
 data class Formacao(
     val nome: String,
     val conteudos: List<ConteudoEducacional>,
-    val matricula: Matricula = Matricula()
+    private val matricula: Matricula = Matricula()
 ) {
     val inscritos
         get() = matricula.inscritos(this)

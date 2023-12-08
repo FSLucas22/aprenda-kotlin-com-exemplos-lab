@@ -7,7 +7,7 @@ typealias ConteudosConcluidos = MutableList<Int>
 data class UsuarioFormacao(
     val usuario: Usuario,
     val formacao: Formacao,
-    val concluidos: ConteudosConcluidos = mutableListOf()
+    private val concluidos: ConteudosConcluidos = mutableListOf()
 ) {
 
     fun calcularProgresso(): Porcentagem {
