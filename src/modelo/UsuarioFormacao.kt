@@ -1,5 +1,7 @@
 package src.modelo
 
+import src.Porcentagem
+
 typealias ConteudosConcluidos = MutableList<Int>
 
 data class UsuarioFormacao(
@@ -8,7 +10,7 @@ data class UsuarioFormacao(
     val concluidos: ConteudosConcluidos = mutableListOf()
 ) {
 
-    fun calculaProgresso() {
+    fun calcularProgresso(): Porcentagem {
         TODO(
             "Calcule a porcentagem de conteúdos concluídos pelo usuário," +
                 "com base na duração da $formacao} e da duração " +
