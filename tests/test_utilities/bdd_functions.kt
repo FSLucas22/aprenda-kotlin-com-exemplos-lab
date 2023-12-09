@@ -12,4 +12,16 @@ data class Result<T, R>(val context: T, val result: R) {
     inline infix fun then(function: T.(R) -> Unit): Unit = function(context, result)
 }
 
-inline fun <T> given(function: () -> T): Context<T> = Context(function())
+inline fun <T> given(
+    variables: T,
+    function: T.() -> Unit = { }
+): Context<T> {
+    function(variables)
+    return Context(variables)
+}
+
+inline fun <T> given(
+    function: () -> T
+): Context<T> {
+    return given(function())
+}

@@ -34,16 +34,11 @@ val testesFormacao = newSession(
     },
 
     Test("Não deve matricular o mesmo usuário duas vezes") {
-        given {
+        given(object {
             val usuario = newUsuario()
             val formacao = newFormacao()
-
+        }) {
             formacao.matricular(usuario)
-
-            object {
-                val usuario = usuario
-                val formacao = formacao
-            }
         } whenDone {
             catchThrowable(MatriculaInvalidaException::class.java) {
                 formacao.matricular(usuario)
@@ -67,16 +62,11 @@ val testesFormacao = newSession(
     },
 
     Test("Deve cancelar uma matricula") {
-        given {
+        given(object {
             val usuario = newUsuario()
             val formacao = newFormacao()
-
+        }) {
             formacao.matricular(usuario)
-
-            object {
-                val usuario = usuario
-                val formacao = formacao
-            }
         } whenDone {
             formacao.cancelarMatricula(usuario)
         } then {
@@ -111,16 +101,11 @@ val testesFormacao = newSession(
     },
 
     Test("Deve lançar erro ao tentar concluir conteúdo não presente na formação") {
-        given {
+        given(object {
             val formacao = newFormacao()
             val usuario = newUsuario()
-
+        }) {
             formacao.matricular(usuario)
-
-            object {
-                val formacao = formacao
-                val usuario = usuario
-            }
         } whenDone { object {
             val msgIndiceMaior = catchThrowable(ConclusaoInvalidaException::class.java) {
                 formacao.concluirConteudo(usuario, 0)
@@ -136,19 +121,15 @@ val testesFormacao = newSession(
     },
 
     Test("Deve retornar o indice dos conteúdos concluídos") {
-        given {
+        given(object {
             val formacao = newFormacao(
                 newConteudoEducacional(),
                 newConteudoEducacional()
             )
             val usuario = newUsuario()
-
+        }) {
             formacao.matricular(usuario)
             formacao.concluirConteudo(usuario, 1)
-            object {
-                val formacao = formacao
-                val usuario = usuario
-            }
         } whenDone {
             formacao.concluidosPor(usuario)
         } then {
@@ -157,20 +138,15 @@ val testesFormacao = newSession(
     },
 
     Test("Deve calcular o progresso com base nos conteúdos concluídos") {
-        given {
+        given(object {
             val usuario = newUsuario()
             val formacao = newFormacao(
                 newConteudoEducacional(Minutos(40.0)),
                 newConteudoEducacional(Minutos(60.0)),
             )
-
+        }) {
             formacao.matricular(usuario)
             formacao.concluirConteudo(usuario, 1)
-
-            object {
-                val usuario = usuario
-                val formacao = formacao
-            }
         } whenDone {
             formacao.calcularProgresso(usuario)
         } then {
