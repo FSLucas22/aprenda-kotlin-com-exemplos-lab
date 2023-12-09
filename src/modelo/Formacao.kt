@@ -39,12 +39,12 @@ data class Formacao(
         }
     }
 
-    fun concluidosPor(usuario: Usuario): List<Int> {
+    infix fun retornarConcluidosPor(usuario: Usuario): List<Int> {
         return matricula.retornarUsuarioFormacao(usuario, this)
             .retornarConcluidos()
     }
 
-    fun calcularProgresso(usuario: Usuario): Porcentagem {
+    infix fun calcularProgressoDe(usuario: Usuario): Porcentagem {
         return matricula.retornarUsuarioFormacao(usuario, this)
             .calcularProgresso()
     }

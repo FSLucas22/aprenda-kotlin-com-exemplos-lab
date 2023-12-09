@@ -131,7 +131,7 @@ val testesFormacao = newSession(
             formacao matricular usuario
             formacao.concluirConteudo(usuario, 1)
         } whenDone {
-            formacao.concluidosPor(usuario)
+            formacao retornarConcluidosPor usuario
         } then {
             assertEquals(listOf(1), it)
         }
@@ -148,7 +148,7 @@ val testesFormacao = newSession(
             formacao matricular usuario
             formacao.concluirConteudo(usuario, 1)
         } whenDone {
-            formacao.calcularProgresso(usuario)
+            formacao calcularProgressoDe usuario
         } then {
             assertEquals(Porcentagem(60.0), it)
         }
