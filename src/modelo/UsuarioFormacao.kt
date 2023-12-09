@@ -17,7 +17,7 @@ data class UsuarioFormacao(
             formacao.conteudos[it].duracao.valor
         }
 
-        return Porcentagem(duracaoConcluidos / formacao.duracao.valor * 100)
+        return Porcentagem.de(duracaoConcluidos, formacao.duracao.valor)
     }
 
     fun concluirConteudo(indiceConteudo: Int) {
