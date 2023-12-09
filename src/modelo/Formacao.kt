@@ -14,11 +14,11 @@ data class Formacao(
 
     val duracao: Minutos = Minutos(conteudos.sumOf { it.duracao.valor })
 
-    fun matricular(usuario: Usuario) {
+    infix fun matricular(usuario: Usuario) {
         matricula.matricular(usuario, this)
     }
 
-    fun cancelarMatricula(usuario: Usuario) {
+    infix fun cancelarMatriculaDe(usuario: Usuario) {
         matricula.cancelarMatricula(usuario, this)
     }
 
