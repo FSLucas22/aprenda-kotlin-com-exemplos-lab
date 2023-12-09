@@ -23,12 +23,4 @@ data class UsuarioFormacao(
     fun concluirConteudo(indiceConteudo: Int) {
         concluidos.add(indiceConteudo)
     }
-
-    override fun equals(other: Any?): Boolean {
-        if(other !is UsuarioFormacao) {
-            return super.equals(other)
-        }
-
-        return other.usuario == usuario && other.formacao == formacao
-    }
 }

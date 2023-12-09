@@ -15,20 +15,17 @@ data class Formacao(
     val duracao: Minutos = Minutos(conteudos.sumOf { it.duracao.valor })
 
     fun matricular(usuario: Usuario) {
-        matricula.matricular(UsuarioFormacao(usuario, this))
+        matricula.matricular(usuario, this)
     }
 
     fun cancelarMatricula(usuario: Usuario) {
-        matricula.cancelarMatricula(UsuarioFormacao(usuario, this))
+        matricula.cancelarMatricula(usuario, this)
     }
 
     fun concluirConteudo(usuario: Usuario, indiceConteudo: Int) {
         validaConclusao(usuario, indiceConteudo)
 
-        val usuarioFormacao = matricula.retornarUsuarioFormacao(
-            UsuarioFormacao(usuario, this)
-        )
-
+        val usuarioFormacao = matricula.retornarUsuarioFormacao(usuario, this)
         usuarioFormacao.concluirConteudo(indiceConteudo)
     }
 
@@ -43,14 +40,12 @@ data class Formacao(
     }
 
     fun concluidosPor(usuario: Usuario): List<Int> {
-        return matricula.retornarUsuarioFormacao(
-            UsuarioFormacao(usuario, this)
-        ).retornarConcluidos()
+        return matricula.retornarUsuarioFormacao(usuario, this)
+            .retornarConcluidos()
     }
 
     fun calcularProgresso(usuario: Usuario): Porcentagem {
-        return matricula.retornarUsuarioFormacao(
-            UsuarioFormacao(usuario, this)
-        ).calcularProgresso()
+        return matricula.retornarUsuarioFormacao(usuario, this)
+            .calcularProgresso()
     }
 }

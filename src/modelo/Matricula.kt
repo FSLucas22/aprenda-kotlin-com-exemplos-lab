@@ -8,27 +8,27 @@ class Matricula(
     fun inscritos(formacao: Formacao) = matriculas
         .filter { it.formacao == formacao }.map { it.usuario }
 
-    fun matricular(usuarioFormacao: UsuarioFormacao) {
-        validaMatricula(usuarioFormacao)
-        matriculas.add(usuarioFormacao)
+    fun matricular(usuario: Usuario, formacao: Formacao) {
+        validaMatricula(usuario, formacao)
+        matriculas.add(UsuarioFormacao(usuario, formacao))
     }
 
-    fun cancelarMatricula(usuarioFormacao: UsuarioFormacao) {
-        validaDesmatricula(usuarioFormacao)
-        matriculas.remove(usuarioFormacao)
+    fun cancelarMatricula(usuario: Usuario, formacao: Formacao) {
+        validaDesmatricula(usuario, formacao)
+        matriculas.remove(retornarUsuarioFormacao(usuario, formacao))
     }
 
-    fun retornarUsuarioFormacao(usuarioFormacao: UsuarioFormacao) = matriculas
-        .filter { it == usuarioFormacao }[0]
+    fun retornarUsuarioFormacao(usuario: Usuario, formacao: Formacao) = matriculas
+        .filter { it.usuario == usuario && it.formacao == formacao }[0]
 
-    private fun validaMatricula(usuarioFormacao: UsuarioFormacao) {
-        if (usuarioFormacao in matriculas) {
+    private fun validaMatricula(usuario: Usuario, formacao: Formacao) {
+        if (usuario in inscritos(formacao)) {
             throw MatriculaInvalidaException("Usuário já matriculado")
         }
     }
 
-    private fun validaDesmatricula(usuarioFormacao: UsuarioFormacao) {
-        if (usuarioFormacao !in matriculas) {
+    private fun validaDesmatricula(usuario: Usuario, formacao: Formacao) {
+        if (usuario !in inscritos(formacao)) {
             throw MatriculaInvalidaException("Usuário não matriculado")
         }
     }
