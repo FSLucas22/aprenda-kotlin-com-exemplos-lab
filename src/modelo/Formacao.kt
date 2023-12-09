@@ -1,6 +1,7 @@
 package src.modelo
 
 import src.Minutos
+import src.Porcentagem
 import src.exceptions.ConclusaoInvalidaException
 
 data class Formacao(
@@ -45,5 +46,11 @@ data class Formacao(
         return matricula.retornarUsuarioFormacao(
             UsuarioFormacao(usuario, this)
         ).retornarConcluidos()
+    }
+
+    fun calcularProgresso(usuario: Usuario): Porcentagem {
+        return matricula.retornarUsuarioFormacao(
+            UsuarioFormacao(usuario, this)
+        ).calcularProgresso()
     }
 }

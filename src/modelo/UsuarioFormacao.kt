@@ -13,12 +13,11 @@ data class UsuarioFormacao(
     fun retornarConcluidos() = concluidos.toList()
 
     fun calcularProgresso(): Porcentagem {
-        TODO(
-            "Calcule a porcentagem de conteúdos concluídos pelo usuário," +
-                "com base na duração da $formacao} e da duração " +
-                "dos conteúdos concluídos por ele " +
-                "(Indices dos conteúdos concluídos está progressos[formacao]"
-        )
+        val duracaoConcluidos = concluidos.sumOf {
+            formacao.conteudos[it].duracao.valor
+        }
+
+        return Porcentagem(duracaoConcluidos / formacao.duracao.valor * 100)
     }
 
     fun concluirConteudo(indiceConteudo: Int) {

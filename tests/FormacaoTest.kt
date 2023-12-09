@@ -2,6 +2,7 @@ package tests
 
 import src.exceptions.MatriculaInvalidaException
 import src.Minutos
+import src.Porcentagem
 import src.exceptions.ConclusaoInvalidaException
 import src.modelo.*
 import tests.test_utilities.*
@@ -155,12 +156,38 @@ val testesFormacao = newSession(
         }
     },
 
+    Test("Deve calcular o progresso com base nos conteúdos concluídos") {
+        given {
+            val usuario = newUsuario()
+            val formacao = newFormacao(
+                newConteudoEducacional(Minutos(40.0)),
+                newConteudoEducacional(Minutos(60.0)),
+            )
+
+            formacao.matricular(usuario)
+            formacao.concluirConteudo(usuario, 1)
+
+            object {
+                val usuario = usuario
+                val formacao = formacao
+            }
+        } whenDone {
+            formacao.calcularProgresso(usuario)
+        } then {
+            assertEquals(Porcentagem(60.0), it)
+        }
+    },
+
     Test("Dois UsuarioFormacao devem ser iguais caso o usuario e a formação sejam idênticos") {
-        val usuario = newUsuario()
-        val formacao = newFormacao(newConteudoEducacional(), newConteudoEducacional())
-        val usuarioFormacao = UsuarioFormacao(usuario, formacao)
-        val usuarioFormacao2 = UsuarioFormacao(usuario, formacao)
-        usuarioFormacao2.concluirConteudo(1)
-        assertEquals(usuarioFormacao, usuarioFormacao2)
+        given { object {
+            val usuario = newUsuario()
+            val formacao = newFormacao(newConteudoEducacional(), newConteudoEducacional())
+            val usuarioFormacao = UsuarioFormacao(usuario, formacao)
+            val usuarioFormacao2 = UsuarioFormacao(usuario, formacao)
+        } } whenDone {
+            usuarioFormacao2.concluirConteudo(1)
+        } then {
+            assertEquals(usuarioFormacao, usuarioFormacao2)
+        }
     }
 )
