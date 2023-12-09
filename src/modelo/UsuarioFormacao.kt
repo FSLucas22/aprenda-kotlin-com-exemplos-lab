@@ -20,7 +20,7 @@ data class UsuarioFormacao(
         return Porcentagem.de(duracaoConcluidos, formacao.duracao.valor)
     }
 
-    infix fun concluirConteudoDo(indiceConteudo: Int) {
+    infix fun concluiConteudoDo(indiceConteudo: Int) {
         concluidos.add(indiceConteudo)
     }
 }

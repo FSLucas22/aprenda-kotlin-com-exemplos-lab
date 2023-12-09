@@ -26,7 +26,7 @@ data class Formacao(
         validaConclusao(usuario, indice)
 
         val usuarioFormacao = matricula.retornarUsuarioFormacao(usuario, this)
-        usuarioFormacao concluirConteudoDo indice
+        usuarioFormacao concluiConteudoDo indice
     }
 
     private fun validaConclusao(usuario: Usuario, indiceConteudo: Int) {
