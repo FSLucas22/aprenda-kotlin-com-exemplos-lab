@@ -25,7 +25,7 @@ val testesFormacao = newSession(
             val usuario = newUsuario()
             val formacao = newFormacao()
         } } whenDone {
-            formacao matricular usuario
+            formacao matricula usuario
             formacao.inscritos
         } then {
             assertEquals(1, it.size)
@@ -38,10 +38,10 @@ val testesFormacao = newSession(
             val usuario = newUsuario()
             val formacao = newFormacao()
         }) {
-            formacao matricular usuario
+            formacao matricula usuario
         } whenDone {
             catchThrowable(MatriculaInvalidaException::class.java) {
-                formacao matricular usuario
+                formacao matricula usuario
             }
         } then {
             assertEquals("Usuário já matriculado", it.msg)
@@ -54,7 +54,7 @@ val testesFormacao = newSession(
             val formacao = newFormacao()
         } } whenDone {
             catchThrowable(MatriculaInvalidaException::class.java) {
-                formacao cancelarMatriculaDe usuario
+                formacao cancelaMatriculaDe usuario
             }
         } then {
             assertEquals("Usuário não matriculado", it.msg)
@@ -66,9 +66,9 @@ val testesFormacao = newSession(
             val usuario = newUsuario()
             val formacao = newFormacao()
         }) {
-            formacao matricular usuario
+            formacao matricula usuario
         } whenDone {
-            formacao cancelarMatriculaDe usuario
+            formacao cancelaMatriculaDe usuario
         } then {
             assertEquals(0, formacao.inscritos.size)
         }
@@ -105,7 +105,7 @@ val testesFormacao = newSession(
             val formacao = newFormacao()
             val usuario = newUsuario()
         }) {
-            formacao matricular usuario
+            formacao matricula usuario
         } whenDone { object {
             val msgIndiceMaior = catchThrowable(ConclusaoInvalidaException::class.java) {
                 formacao.concluirConteudo(usuario, 0)
@@ -128,10 +128,10 @@ val testesFormacao = newSession(
             )
             val usuario = newUsuario()
         }) {
-            formacao matricular usuario
+            formacao matricula usuario
             formacao.concluirConteudo(usuario, 1)
         } whenDone {
-            formacao retornarConcluidosPor usuario
+            formacao retornaConcluidosPor usuario
         } then {
             assertEquals(listOf(1), it)
         }
@@ -145,10 +145,10 @@ val testesFormacao = newSession(
                 newConteudoEducacional(Minutos(60.0)),
             )
         }) {
-            formacao matricular usuario
+            formacao matricula usuario
             formacao.concluirConteudo(usuario, 1)
         } whenDone {
-            formacao calcularProgressoDe usuario
+            formacao calculaProgressoDe usuario
         } then {
             assertEquals(Porcentagem(60.0), it)
         }

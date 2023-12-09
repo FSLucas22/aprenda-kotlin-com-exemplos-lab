@@ -14,19 +14,19 @@ data class Formacao(
 
     val duracao: Minutos = Minutos(conteudos.sumOf { it.duracao.valor })
 
-    infix fun matricular(usuario: Usuario) {
+    infix fun matricula(usuario: Usuario) {
         matricula.matricular(usuario, this)
     }
 
-    infix fun cancelarMatriculaDe(usuario: Usuario) {
+    infix fun cancelaMatriculaDe(usuario: Usuario) {
         matricula.cancelarMatricula(usuario, this)
     }
 
-    fun concluirConteudo(usuario: Usuario, indiceConteudo: Int) {
-        validaConclusao(usuario, indiceConteudo)
+    fun concluirConteudo(usuario: Usuario, indice: Int) {
+        validaConclusao(usuario, indice)
 
         val usuarioFormacao = matricula.retornarUsuarioFormacao(usuario, this)
-        usuarioFormacao.concluirConteudo(indiceConteudo)
+        usuarioFormacao concluirConteudoDo indice
     }
 
     private fun validaConclusao(usuario: Usuario, indiceConteudo: Int) {
@@ -39,12 +39,12 @@ data class Formacao(
         }
     }
 
-    infix fun retornarConcluidosPor(usuario: Usuario): List<Int> {
+    infix fun retornaConcluidosPor(usuario: Usuario): List<Int> {
         return matricula.retornarUsuarioFormacao(usuario, this)
             .retornarConcluidos()
     }
 
-    infix fun calcularProgressoDe(usuario: Usuario): Porcentagem {
+    infix fun calculaProgressoDe(usuario: Usuario): Porcentagem {
         return matricula.retornarUsuarioFormacao(usuario, this)
             .calcularProgresso()
     }
