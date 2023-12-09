@@ -18,6 +18,9 @@ class Matricula(
         matriculas.remove(usuarioFormacao)
     }
 
+    fun retornarUsuarioFormacao(usuarioFormacao: UsuarioFormacao) = matriculas
+        .filter { it == usuarioFormacao }[0]
+
     private fun validaMatricula(usuarioFormacao: UsuarioFormacao) {
         if (usuarioFormacao in matriculas) {
             throw MatriculaInvalidaException("Usuário já matriculado")

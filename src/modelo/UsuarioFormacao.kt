@@ -7,8 +7,10 @@ typealias ConteudosConcluidos = MutableList<Int>
 data class UsuarioFormacao(
     val usuario: Usuario,
     val formacao: Formacao,
-    private val concluidos: ConteudosConcluidos = mutableListOf()
+    val concluidos: ConteudosConcluidos = mutableListOf()
 ) {
+
+    fun retornarConcluidos() = concluidos.toList()
 
     fun calcularProgresso(): Porcentagem {
         TODO(
@@ -19,7 +21,15 @@ data class UsuarioFormacao(
         )
     }
 
-    fun concluirConteudo(formacao: Formacao, indiceConteudo: Int) {
+    fun concluirConteudo(indiceConteudo: Int) {
         concluidos.add(indiceConteudo)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if(other !is UsuarioFormacao) {
+            return super.equals(other)
+        }
+
+        return other.usuario == usuario && other.formacao == formacao
     }
 }

@@ -2,10 +2,8 @@ package tests
 
 import src.exceptions.MatriculaInvalidaException
 import src.Minutos
-import src.modelo.ConteudoEducacional
-import src.modelo.Formacao
-import src.modelo.Nivel
-import src.modelo.Usuario
+import src.exceptions.ConclusaoInvalidaException
+import src.modelo.*
 import tests.test_utilities.*
 
 fun newUsuario() = Usuario("Lucas", 24)
@@ -97,4 +95,72 @@ val testesFormacao = newSession(
             assertEquals(Minutos(9.0), formacao.duracao)
         }
     },
+
+    Test("Deve lançar erro ao tentar concluir conteúdo de usuário não matriculado") {
+        given { object {
+            val formacao = newFormacao()
+            val usuario = newUsuario()
+        } } whenDone {
+            catchThrowable(ConclusaoInvalidaException::class.java) {
+                formacao.concluirConteudo(usuario, 0)
+            }
+        } then {
+            assertEquals(it.msg, "Usuário não matriculado")
+        }
+    },
+
+    Test("Deve lançar erro ao tentar concluir conteúdo não presente na formação") {
+        given {
+            val formacao = newFormacao()
+            val usuario = newUsuario()
+
+            formacao.matricular(usuario)
+
+            object {
+                val formacao = formacao
+                val usuario = usuario
+            }
+        } whenDone { object {
+            val msgIndiceMaior = catchThrowable(ConclusaoInvalidaException::class.java) {
+                formacao.concluirConteudo(usuario, 0)
+            }.msg
+
+            val msgIndiceNegativo = catchThrowable(ConclusaoInvalidaException::class.java) {
+                formacao.concluirConteudo(usuario, -1)
+            }.msg
+        } } then {
+            assertEquals(it.msgIndiceMaior, "Indice de conteúdo inválido")
+            assertEquals(it.msgIndiceNegativo, "Indice de conteúdo inválido")
+        }
+    },
+
+    Test("Deve retornar o indice dos conteúdos concluídos") {
+        given {
+            val formacao = newFormacao(
+                newConteudoEducacional(),
+                newConteudoEducacional()
+            )
+            val usuario = newUsuario()
+
+            formacao.matricular(usuario)
+            formacao.concluirConteudo(usuario, 1)
+            object {
+                val formacao = formacao
+                val usuario = usuario
+            }
+        } whenDone {
+            formacao.concluidosPor(usuario)
+        } then {
+            assertEquals(listOf(1), it)
+        }
+    },
+
+    Test("Dois UsuarioFormacao devem ser iguais caso o usuario e a formação sejam idênticos") {
+        val usuario = newUsuario()
+        val formacao = newFormacao(newConteudoEducacional(), newConteudoEducacional())
+        val usuarioFormacao = UsuarioFormacao(usuario, formacao)
+        val usuarioFormacao2 = UsuarioFormacao(usuario, formacao)
+        usuarioFormacao2.concluirConteudo(1)
+        assertEquals(usuarioFormacao, usuarioFormacao2)
+    }
 )
